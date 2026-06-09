@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sedra Doner – Menu Display</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold:    #C9A84C;
+    --gold-lt: #E8C96A;
+    --dark:    #0E0A06;
+    --charcoal:#1A1208;
+    --warm:    #F5EFE0;
+    --ember:   #8B3A10;
+  }
+
+  html, body {
+    width: 1920px; height: 1080px;
+    overflow: hidden;
+    background: var(--dark);
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ── PAGES ── */
+  .page {
+    position: absolute; inset: 0;
+    display: grid;
+    grid-template-rows: 140px 1fr 60px;
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+  }
+  .page.active { opacity: 1; pointer-events: auto; }
+
+  /* ── HEADER ── */
+  header {
+    display: flex; align-items: center; justify-content: center;
+    gap: 32px;
+    background: var(--charcoal);
+    border-bottom: 2px solid var(--gold);
+    position: relative;
+    padding: 0 60px;
+  }
+  .logo-ornament {
+    width: 60px; height: 60px;
+    opacity: .55;
+  }
+  .brand { text-align: center; }
+  .brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px; font-weight: 900;
+    color: var(--gold);
+    letter-spacing: .08em;
+    line-height: 1;
+    text-shadow: 0 2px 24px rgba(201,168,76,.35);
+  }
+  .brand-sub {
+    font-size: 18px; letter-spacing: .45em;
+    color: var(--warm); opacity: .65;
+    text-transform: uppercase; margin-top: 4px;
+  }
+  .page-badge {
+    position: absolute; right: 60px;
+    font-size: 14px; letter-spacing: .2em;
+    color: var(--gold); opacity: .7;
+    text-transform: uppercase;
+  }
+
+  /* ── GRID BODY ── */
+  .body {
+    display: grid;
+    padding: 40px 70px;
+    gap: 24px;
+    align-content: start;
+  }
+  /* Page 1 — two columns */
+  #page1 .body { grid-template-columns: 1fr 1fr; column-gap: 60px; }
+  /* Page 2 — three columns */
+  #page2 .body { grid-template-columns: 1fr 1fr 1fr; column-gap: 50px; }
+
+  /* ── SECTION ── */
+  .section { display: flex; flex-direction: column; gap: 0; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: .3em; text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid rgba(201,168,76,.3);
+    padding-bottom: 8px; margin-bottom: 4px;
+  }
+
+  /* ── ITEM ROW ── */
+  .item {
+    display: flex; align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+  .item:last-child { border-bottom: none; }
+  .item-name {
+    flex: 1;
+    font-size: 22px; font-weight: 500;
+    color: var(--warm);
+    letter-spacing: .02em;
+  }
+  .item-dots {
+    flex: 1;
+    border-bottom: 1px dotted rgba(201,168,76,.25);
+    margin: 0 12px;
+    position: relative; top: -4px;
+  }
+  .item-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-weight: 700;
+    color: var(--gold-lt);
+    white-space: nowrap;
+  }
+  .item-price span {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; font-weight: 400;
+    color: var(--gold); opacity: .7;
+    margin-left: 2px;
+  }
+
+  /* featured item (larger) */
+  .item.featured .item-name { font-size: 26px; font-weight: 600; }
+  .item.featured .item-price { font-size: 32px; }
+
+  /* ── FOOTER / PROGRESS ── */
+  footer {
+    display: flex; align-items: center;
+    padding: 0 70px;
+    background: var(--charcoal);
+    border-top: 1px solid rgba(201,168,76,.2);
+    gap: 16px;
+  }
+  .progress-label {
+    font-size: 12px; letter-spacing: .15em;
+    color: var(--gold); opacity: .5;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .progress-track {
+    flex: 1; height: 3px;
+    background: rgba(201,168,76,.15);
+    border-radius: 2px; overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--ember), var(--gold));
+    border-radius: 2px;
+    transition: width .1s linear;
+  }
+  .dots {
+    display: flex; gap: 8px;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(201,168,76,.25);
+    transition: background .4s;
+  }
+  .dot.on { background: var(--gold); }
+
+  /* subtle background texture */
+  .page::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 100%, rgba(139,58,16,.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 10% 10%, rgba(201,168,76,.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ PAGE 1 ═══════════════════ -->
+<section class="page active" id="page1">
+  <header>
+    <svg class="logo-ornament" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 4 L34 16 L47 16 L37 24 L41 36 L30 28 L19 36 L23 24 L13 16 L26 16 Z" fill="#C9A84C" opacity=".8"/>
+      <circle cx="30" cy="30" r="27" stroke="#C9A84C" stroke-width="1.5" opacity=".3"/>
+    </svg>
+    <div class="brand">
+      <div class="brand-name">SEDRA DONER</div>
+      <div class="brand-sub">Мeny</div>
+    </div>
+    <svg class="logo-ornament" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 4 L34 16 L47 16 L37 24 L41 36 L30 28 L19 36 L23 24 L13 16 L26 16 Z" fill="#C9A84C" opacity=".8"/>
+      <circle cx="30" cy="30" r="27" stroke="#C9A84C" stroke-width="1.5" opacity=".3"/>
+    </svg>
+    <div class="page-badge">1 / 2</div>
+  </header>
+
+  <div class="body">
+
+    <!-- LEFT column -->
+    <div>
+      <div class="section">
+        <div class="section-title">🥙 Doner &amp; Durum</div>
+        <div class="item featured">
+          <div class="item-name">Doner Viçi</div>
+          <div class="item-dots"></div>
+          <div class="item-price">200<span>den</span></div>
+        </div>
+        <div class="item featured">
+          <div class="item-name">Doner Pule</div>
+          <div class="item-dots"></div>
+          <div class="item-price">200<span>den</span></div>
+        </div>
+        <div class="item featured">
+          <div class="item-name">Porcion Viçi</div>
+          <div class="item-dots"></div>
+          <div class="item-price">350<span>den</span></div>
+        </div>
+        <div class="item featured">
+          <div class="item-name">Porcion Pule</div>
+          <div class="item-dots"></div>
+          <div class="item-price">350<span>den</span></div>
+        </div>
+        <div class="item featured">
+          <div class="item-name">Durum Viçi</div>
+          <div class="item-dots"></div>
+          <div class="item-price">220<span>den</span></div>
+        </div>
+        <div class="item featured">
+          <div class="item-name">Durum Pule</div>
+          <div class="item-dots"></div>
+          <div class="item-price">220<span>den</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT column -->
+    <div style="display:flex;flex-direction:column;gap:32px;">
+      <div class="section">
+        <div class="section-title">🍗 Chicken</div>
+        <div class="item featured">
+          <div class="item-name">Chiken Fingers</div>
+          <div class="item-dots"></div>
+          <div class="item-price">210<span>den</span></div>
+        </div>
+        <div class="item featured">
+          <div class="item-name">Chiken Nuggets</div>
+          <div class="item-dots"></div>
+          <div class="item-price">210<span>den</span></div>
+        </div>
+        <div class="item">
+          <div class="item-name">Mozzarella Sticks (4 copé)</div>
+          <div class="item-dots"></div>
+          <div class="item-price">100<span>den</span></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">🍞 Tost</div>
+        <div class="item">
+          <div class="item-name">Tost me Sallam</div>
+          <div class="item-dots"></div>
+          <div class="item-price">80<span>den</span></div>
+        </div>
+        <div class="item">
+          <div class="item-name">Tost me Suxhuk</div>
+          <div class="item-dots"></div>
+          <div class="item-price">80<span>den</span></div>
+        </div>
+        <div class="item">
+          <div class="item-name">Tost me Proshutë</div>
+          <div class="item-dots"></div>
+          <div class="item-price">80<span>den</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="progress-label">Страница 1</div>
+    <div class="progress-track"><div class="progress-bar" id="bar1"></div></div>
+    <div class="dots">
+      <div class="dot on" id="dot0"></div>
+      <div class="dot" id="dot1"></div>
+    </div>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════ PAGE 2 ═══════════════════ -->
+<section class="page" id="page2">
+  <header>
+    <svg class="logo-ornament" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 4 L34 16 L47 16 L37 24 L41 36 L30 28 L19 36 L23 24 L13 16 L26 16 Z" fill="#C9A84C" opacity=".8"/>
+      <circle cx="30" cy="30" r="27" stroke="#C9A84C" stroke-width="1.5" opacity=".3"/>
+    </svg>
+    <div class="brand">
+      <div class="brand-name">SEDRA DONER</div>
+      <div class="brand-sub">Мeny</div>
+    </div>
+    <svg class="logo-ornament" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M30 4 L34 16 L47 16 L37 24 L41 36 L30 28 L19 36 L23 24 L13 16 L26 16 Z" fill="#C9A84C" opacity=".8"/>
+      <circle cx="30" cy="30" r="27" stroke="#C9A84C" stroke-width="1.5" opacity=".3"/>
+    </svg>
+    <div class="page-badge">2 / 2</div>
+  </header>
+
+  <div class="body">
+
+    <!-- COL 1: Extras -->
+    <div class="section">
+      <div class="section-title">🍟 Dodatoci</div>
+      <div class="item">
+        <div class="item-name">Pomfrit Extra</div>
+        <div class="item-dots"></div>
+        <div class="item-price">100<span>den</span></div>
+      </div>
+      <div class="item">
+        <div class="item-name">Extra Sos</div>
+        <div class="item-dots"></div>
+        <div class="item-price">30<span>den</span></div>
+      </div>
+      <div class="item">
+        <div class="item-name">Extra Mish</div>
+        <div class="item-dots"></div>
+        <div class="item-price">60<span>den</span></div>
+      </div>
+    </div>
+
+    <!-- COL 2: Drinks non-alco -->
+    <div class="section">
+      <div class="section-title">🥤 Пијалоци</div>
+      <div class="item">
+        <div class="item-name">Lëngje të Gazuara</div>
+        <div class="item-dots"></div>
+        <div class="item-price">70<span>den</span></div>
+      </div>
+      <div class="item">
+        <div class="item-name">Lëngje Pemesh</div>
+        <div class="item-dots"></div>
+        <div class="item-price">70<span>den</span></div>
+      </div>
+      <div class="item">
+        <div class="item-name">Limonadë</div>
+        <div class="item-dots"></div>
+        <div class="item-price">60<span>den</span></div>
+      </div>
+      <div class="item">
+        <div class="item-name">Ajran</div>
+        <div class="item-dots"></div>
+        <div class="item-price">50<span>den</span></div>
+      </div>
+      <div class="item">
+        <div class="item-name">Jogurt</div>
+        <div class="item-dots"></div>
+        <div class="item-price">50<span>den</span></div>
+      </div>
+    </div>
+
+    <!-- COL 3: Water -->
+    <div class="section">
+      <div class="section-title">💧 Вода</div>
+      <div class="item">
+        <div class="item-name">Ujë pa Gaz</div>
+        <div class="item-dots"></div>
+        <div class="item-price">50<span>den</span></div>
+      </div>
+      <div class="item">
+        <div class="item-name">Ujë me Gaz</div>
+        <div class="item-dots"></div>
+        <div class="item-price">50<span>den</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="progress-label">Страница 2</div>
+    <div class="progress-track"><div class="progress-bar" id="bar2"></div></div>
+    <div class="dots">
+      <div class="dot" id="dot2"></div>
+      <div class="dot on" id="dot3"></div>
+    </div>
+  </footer>
+</section>
+
+
+<script>
+  const CYCLE = 20000; // 20 seconds total
+  const HALF  = CYCLE / 2; // 10s per page
+
+  const pages = [
+    document.getElementById('page1'),
+    document.getElementById('page2'),
+  ];
+  const bars = [
+    document.getElementById('bar1'),
+    document.getElementById('bar2'),
+  ];
+  const dotPairs = [
+    [document.getElementById('dot0'), document.getElementById('dot1')],
+    [document.getElementById('dot2'), document.getElementById('dot3')],
+  ];
+
+  let current = 0;
+  let startTime = performance.now();
+
+  function showPage(idx) {
+    pages.forEach((p, i) => p.classList.toggle('active', i === idx));
+    bars.forEach(b => b.style.width = '0%');
+    dotPairs.forEach((pair, i) => {
+      pair[0].classList.toggle('on', i === idx);
+      pair[1].classList.toggle('on', i !== idx);
+    });
+  }
+
+  function tick(now) {
+    const elapsed = (now - startTime) % CYCLE;
+    const pageIdx = elapsed < HALF ? 0 : 1;
+    const pageElapsed = elapsed < HALF ? elapsed : elapsed - HALF;
+    const pct = (pageElapsed / HALF) * 100;
+
+    if (pageIdx !== current) {
+      current = pageIdx;
+      showPage(current);
+    }
+
+    bars[current].style.width = pct + '%';
+    requestAnimationFrame(tick);
+  }
+
+  showPage(0);
+  requestAnimationFrame(tick);
+</script>
+</body>
+</html>
