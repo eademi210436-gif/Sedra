@@ -239,6 +239,27 @@
   .dots { display:flex; gap:8px; }
   .dot { width:7px; height:7px; border-radius:50%; background:rgba(196,154,42,.2); transition:background .4s; }
   .dot.on { background:var(--gold); }
+
+  /* powered by credit */
+  .credit {
+    display:flex; align-items:center;
+    font-size:11px; letter-spacing:.04em;
+    color:var(--ink-soft); opacity:.6;
+    white-space:nowrap; flex-shrink:0;
+  }
+  .credit .label { margin-right:5px; }
+  .credit .brand {
+    position:relative;
+    color:var(--ink); font-weight:600; opacity:.75;
+  }
+  .credit .brand .accent { position:relative; display:inline-block; }
+  .credit .brand .accent::before {
+    content:''; position:absolute;
+    top:-6px; left:50%; transform:translateX(-50%) rotate(180deg);
+    width:0; height:0;
+    border-left:3px solid transparent; border-right:3px solid transparent;
+    border-bottom:4px solid var(--gold);
+  }
 </style>
 </head>
 <body>
@@ -349,6 +370,7 @@
     <div class="dots">
       <div class="dot on" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div>
     </div>
+    <div class="credit"><span class="label">powered by</span><span class="brand">ha<span class="accent">j</span>deha</span></div>
   </footer>
 </section>
 
@@ -438,6 +460,7 @@
     <div class="dots">
       <div class="dot" id="d3"></div><div class="dot on" id="d4"></div><div class="dot" id="d5"></div>
     </div>
+    <div class="credit"><span class="label">powered by</span><span class="brand">ha<span class="accent">j</span>deha</span></div>
   </footer>
 </section>
 
@@ -515,6 +538,7 @@
     <div class="dots">
       <div class="dot" id="d6"></div><div class="dot" id="d7"></div><div class="dot on" id="d8"></div>
     </div>
+    <div class="credit"><span class="label">powered by</span><span class="brand">ha<span class="accent">j</span>deha</span></div>
   </footer>
 </section>
 
