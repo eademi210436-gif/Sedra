@@ -4,21 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sedra Doner – Menu Display</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --gold:      #B8922A;
-    --gold-lt:   #D4A843;
-    --gold-pale: #F0DFA0;
-    --bg:        #FAFAF8;
-    --surface:   rgba(255,255,255,0.82);
-    --ink:       #1A1410;
-    --ink-mid:   #3D3020;
-    --ink-soft:  #7A6848;
-    --rule:      rgba(184,146,42,0.22);
-    --accent:    #8B1A0A;
+    --gold:    #C49A2A;
+    --gold-lt: #DDB94A;
+    --ink:     #1A1410;
+    --ink-soft:#7A6848;
+    --rule:    rgba(196,154,42,0.22);
+    --bg:      #F7F4EE;
   }
 
   html, body {
@@ -28,471 +24,497 @@
     font-family: 'DM Sans', sans-serif;
   }
 
-  /* ── BACKGROUND: soft warm linen with subtle radial glow ── */
   body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 0;
+    content:''; position:fixed; inset:0; z-index:0;
     background:
-      radial-gradient(ellipse 100% 80% at 50% 0%,   rgba(212,168,67,.10) 0%, transparent 60%),
-      radial-gradient(ellipse 60%  60% at 90% 100%,  rgba(139,26,10,.06) 0%, transparent 55%),
-      radial-gradient(ellipse 50%  50% at 5%  80%,   rgba(184,146,42,.07) 0%, transparent 55%),
-      linear-gradient(160deg, #F8F5EE 0%, #FAF9F5 40%, #F5F2EA 100%);
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(212,168,67,.13) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 95% 100%, rgba(139,26,10,.07) 0%, transparent 55%),
+      linear-gradient(160deg,#F9F6EF 0%,#FAF9F5 50%,#F5F2EA 100%);
   }
 
-  /* ── PAGES ── */
+  /* ═══ PAGE WRAPPER ═══ */
   .page {
-    position: absolute; inset: 0; z-index: 1;
-    display: grid;
-    grid-template-rows: 130px 1fr 56px;
-    opacity: 0;
-    transition: opacity 1.1s ease;
-    pointer-events: none;
+    position:absolute; inset:0; z-index:1;
+    display:grid;
+    grid-template-rows: 110px 1fr 52px;
+    opacity:0; transition:opacity 1.1s ease;
+    pointer-events:none;
   }
-  .page.active { opacity: 1; pointer-events: auto; }
+  .page.active { opacity:1; pointer-events:auto; }
 
-  /* ── HEADER ── */
+  /* ═══ HEADER ═══ */
   header {
-    display: flex; align-items: center; justify-content: center;
-    gap: 28px;
-    background: rgba(255,255,255,0.78);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-bottom: 1.5px solid var(--rule);
-    position: relative;
-    padding: 0 70px;
-    box-shadow: 0 2px 32px rgba(184,146,42,.08);
+    display:flex; align-items:center; justify-content:center; gap:24px;
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border-bottom:1.5px solid var(--rule);
+    padding:0 70px; position:relative;
+    box-shadow:0 2px 28px rgba(196,154,42,.09);
   }
-
-  .ornament {
-    display: flex; align-items: center; gap: 10px;
-    opacity: .7;
-  }
-  .ornament-line {
-    width: 60px; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold));
-  }
-  .ornament-line.r {
-    background: linear-gradient(90deg, var(--gold), transparent);
-  }
-  .ornament-diamond {
-    width: 7px; height: 7px;
-    background: var(--gold);
-    transform: rotate(45deg);
-  }
-
-  .brand { text-align: center; }
+  .orn { display:flex; align-items:center; gap:10px; opacity:.65; }
+  .orn-line { width:56px; height:1px; background:linear-gradient(90deg,transparent,var(--gold)); }
+  .orn-line.r { background:linear-gradient(90deg,var(--gold),transparent); }
+  .orn-dia { width:6px; height:6px; background:var(--gold); transform:rotate(45deg); }
+  .brand { text-align:center; }
   .brand-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 68px; font-weight: 700;
-    color: var(--ink);
-    letter-spacing: .12em;
-    line-height: 1;
+    font-family:'Cormorant Garamond',serif;
+    font-size:62px; font-weight:700; color:var(--ink);
+    letter-spacing:.13em; line-height:1;
   }
-  .brand-name em {
-    color: var(--gold);
-    font-style: normal;
-  }
+  .brand-name em { color:var(--gold); font-style:normal; }
   .brand-sub {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px; letter-spacing: .5em;
-    color: var(--ink-soft);
-    text-transform: uppercase; margin-top: 6px;
-    font-weight: 500;
+    font-size:12px; letter-spacing:.5em; color:var(--ink-soft);
+    text-transform:uppercase; margin-top:5px; font-weight:500;
   }
   .page-badge {
-    position: absolute; right: 70px;
-    font-size: 13px; letter-spacing: .18em;
-    color: var(--ink-soft);
-    text-transform: uppercase;
-    font-weight: 500;
+    position:absolute; right:70px;
+    font-size:12px; letter-spacing:.18em;
+    color:var(--ink-soft); text-transform:uppercase; font-weight:500;
   }
 
-  /* ── GRID BODY ── */
+  /* ═══ BODY ═══ */
   .body {
-    display: grid;
-    padding: 44px 80px;
-    gap: 0;
-    align-content: start;
-  }
-  #page1 .body { grid-template-columns: 1fr 1.05fr; column-gap: 70px; }
-  #page2 .body { grid-template-columns: 1fr 1fr 1fr; column-gap: 56px; }
-
-  /* ── COLUMN DIVIDER ── */
-  .col-divider {
-    width: 1px;
-    background: var(--rule);
-    align-self: stretch;
-    margin: 0 -35px;
+    display:flex; align-items:center; justify-content:center;
+    padding:28px 64px; gap:24px;
+    overflow:hidden;
   }
 
-  /* ── SECTION ── */
-  .section { display: flex; flex-direction: column; gap: 0; }
-  .section + .section { margin-top: 38px; }
+  /* ═══ CATEGORY BLOCK ═══ */
+  .cat { display:flex; flex-direction:column; gap:12px; flex:1; }
+  .cat-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:12px; font-weight:600; letter-spacing:.4em;
+    text-transform:uppercase; color:var(--gold);
+    display:flex; align-items:center; gap:12px;
+    padding-bottom:10px; border-bottom:1px solid var(--rule);
+  }
+  .cat-title::before {
+    content:''; width:18px; height:1px; background:var(--gold); flex-shrink:0;
+  }
+  .cards { display:flex; gap:14px; }
 
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px; font-weight: 600;
-    letter-spacing: .38em; text-transform: uppercase;
-    color: var(--gold);
-    display: flex; align-items: center; gap: 14px;
-    padding-bottom: 12px;
-    margin-bottom: 4px;
-    border-bottom: 1px solid var(--rule);
+  /* ═══ CARD ═══ */
+  .card {
+    flex:1; border-radius:16px; overflow:hidden;
+    background:#fff;
+    box-shadow:0 4px 22px rgba(30,20,5,.10), 0 1px 4px rgba(30,20,5,.06);
+    display:flex; flex-direction:column;
+    transition:transform .3s ease;
+    position:relative;
   }
-  .section-title::before {
-    content: '';
-    display: inline-block;
-    width: 20px; height: 1px;
-    background: var(--gold);
-    flex-shrink: 0;
+  .card-img {
+    width:100%; aspect-ratio:4/3;
+    object-fit:cover; display:block;
+    background:#EDE8DF;
   }
-
-  /* ── ITEM ROW ── */
-  .item {
-    display: flex; align-items: baseline;
-    padding: 11px 0;
-    border-bottom: 1px solid rgba(184,146,42,.10);
-    position: relative;
+  /* fallback gradient when image fails */
+  .card-img-wrap {
+    position:relative; overflow:hidden;
+    background: linear-gradient(135deg,#EDE8DF,#D9D0C0);
   }
-  .item:last-child { border-bottom: none; }
-
-  .item-name {
-    flex: 1;
-    font-size: 21px; font-weight: 500;
-    color: var(--ink);
-    letter-spacing: .01em;
+  .card-img-wrap::after {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(to bottom, transparent 50%, rgba(15,10,5,.18) 100%);
+    pointer-events:none;
   }
-  .item-dots {
-    flex: 1;
-    border-bottom: 1px dotted rgba(184,146,42,.3);
-    margin: 0 14px;
-    position: relative; top: -5px;
-    min-width: 30px;
+  .card-body {
+    padding:12px 14px 14px;
+    display:flex; align-items:baseline; justify-content:space-between; gap:8px;
+    border-top:1px solid rgba(196,154,42,.10);
   }
-  .item-price {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 26px; font-weight: 700;
-    color: var(--ink);
-    white-space: nowrap;
-    letter-spacing: .03em;
+  .card-name {
+    font-size:17px; font-weight:600; color:var(--ink);
+    line-height:1.25; flex:1;
   }
-  .item-price span {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px; font-weight: 500;
-    color: var(--ink-soft);
-    margin-left: 3px;
+  .card-sub {
+    font-size:12px; color:var(--ink-soft); font-weight:400;
+    margin-top:2px; display:block;
+  }
+  .card-price {
+    font-family:'Cormorant Garamond',serif;
+    font-size:26px; font-weight:700; color:var(--gold);
+    white-space:nowrap; line-height:1;
+  }
+  .card-price small {
+    font-family:'DM Sans',sans-serif;
+    font-size:12px; color:var(--ink-soft); font-weight:500; margin-left:2px;
   }
 
-  .item.featured .item-name  { font-size: 24px; font-weight: 600; color: var(--ink); }
-  .item.featured .item-price { font-size: 30px; color: var(--gold); }
-  .item.featured .item-price span { color: var(--gold); opacity: .75; }
+  /* addon tag on card */
+  .card-addon {
+    position:absolute; top:10px; left:10px;
+    background:rgba(255,255,255,0.88); backdrop-filter:blur(6px);
+    border-radius:20px; padding:3px 10px;
+    font-size:11px; font-weight:600; color:var(--ink-soft);
+    letter-spacing:.06em;
+    border:1px solid var(--rule);
+  }
 
-  /* add-on modifier row */
-  .item.addon { padding: 5px 0 10px 18px; border-bottom: none; }
-  .item.addon .item-name { font-size: 15px; font-weight: 400; color: var(--ink-soft); font-style: italic; }
-  .item.addon .item-dots { border-color: rgba(184,146,42,.12); }
-  .item.addon .item-price { font-size: 18px; color: var(--ink-soft); }
-  .item.addon .item-price span { color: var(--ink-soft); }
+  /* thin vertical divider between categories */
+  .v-div { width:1px; background:var(--rule); align-self:stretch; flex-shrink:0; margin:10px 4px; }
 
-  /* ── FOOTER ── */
+  /* ═══ FOOTER ═══ */
   footer {
-    display: flex; align-items: center;
-    padding: 0 80px;
-    background: rgba(255,255,255,0.72);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-top: 1px solid var(--rule);
-    gap: 18px;
+    display:flex; align-items:center; padding:0 80px;
+    background:rgba(255,255,255,0.75);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-top:1px solid var(--rule); gap:16px;
   }
-  .progress-label {
-    font-size: 11px; letter-spacing: .22em;
-    color: var(--ink-soft);
-    text-transform: uppercase; white-space: nowrap;
-    font-weight: 500;
-  }
-  .progress-track {
-    flex: 1; height: 2px;
-    background: rgba(184,146,42,.15);
-    border-radius: 2px; overflow: hidden;
-  }
-  .progress-bar {
-    height: 100%; width: 0%;
-    background: linear-gradient(90deg, var(--accent), var(--gold-lt));
-    border-radius: 2px;
-    transition: width .1s linear;
-  }
-  .dots { display: flex; gap: 8px; }
-  .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: rgba(184,146,42,.2);
-    transition: background .4s;
-  }
-  .dot.on { background: var(--gold); }
+  .prog-label { font-size:11px; letter-spacing:.22em; color:var(--ink-soft); text-transform:uppercase; white-space:nowrap; font-weight:500; }
+  .prog-track { flex:1; height:2px; background:rgba(196,154,42,.15); border-radius:2px; overflow:hidden; }
+  .prog-bar { height:100%; width:0%; background:linear-gradient(90deg,#8B1A0A,var(--gold-lt)); border-radius:2px; transition:width .1s linear; }
+  .dots { display:flex; gap:8px; }
+  .dot { width:7px; height:7px; border-radius:50%; background:rgba(196,154,42,.2); transition:background .4s; }
+  .dot.on { background:var(--gold); }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════ PAGE 1 ═══════════════════ -->
+<!-- ════════════════════ PAGE 1 — Doner & Durum ════════════════════ -->
 <section class="page active" id="page1">
   <header>
-    <div class="ornament">
-      <div class="ornament-line"></div>
-      <div class="ornament-diamond"></div>
-      <div class="ornament-line"></div>
-    </div>
+    <div class="orn"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line"></div></div>
     <div class="brand">
       <div class="brand-name">SEDRA <em>DONER</em></div>
       <div class="brand-sub">Мeny &nbsp;·&nbsp; Menu</div>
     </div>
-    <div class="ornament">
-      <div class="ornament-line r"></div>
-      <div class="ornament-diamond"></div>
-      <div class="ornament-line r"></div>
-    </div>
-    <div class="page-badge">1 / 2</div>
+    <div class="orn"><div class="orn-line r"></div><div class="orn-dia"></div><div class="orn-line r"></div></div>
+    <div class="page-badge">1 / 3</div>
   </header>
 
   <div class="body">
 
-    <!-- LEFT: Doner & Durum -->
-    <div>
-      <div class="section">
-        <div class="section-title">Doner &amp; Durum</div>
-        <div class="item featured">
-          <div class="item-name">Doner Viçi</div>
-          <div class="item-dots"></div>
-          <div class="item-price">200<span>den</span></div>
+    <!-- DONER -->
+    <div class="cat">
+      <div class="cat-title">Doner</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=480&q=80" alt="Doner Viçi" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Doner Viçi</div></div>
+            <div class="card-price">200<small>den</small></div>
+          </div>
         </div>
-        <div class="item featured">
-          <div class="item-name">Doner Pule</div>
-          <div class="item-dots"></div>
-          <div class="item-price">200<span>den</span></div>
-        </div>
-        <div class="item featured">
-          <div class="item-name">Porcion Viçi</div>
-          <div class="item-dots"></div>
-          <div class="item-price">350<span>den</span></div>
-        </div>
-        <div class="item featured">
-          <div class="item-name">Porcion Pule</div>
-          <div class="item-dots"></div>
-          <div class="item-price">350<span>den</span></div>
-        </div>
-        <div class="item featured">
-          <div class="item-name">Durum Viçi</div>
-          <div class="item-dots"></div>
-          <div class="item-price">220<span>den</span></div>
-        </div>
-        <div class="item featured">
-          <div class="item-name">Durum Pule</div>
-          <div class="item-dots"></div>
-          <div class="item-price">220<span>den</span></div>
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=480&q=80" alt="Doner Pule" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Doner Pule</div></div>
+            <div class="card-price">200<small>den</small></div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT: Sandwiches + Tost + Mozzarella -->
-    <div style="display:flex;flex-direction:column;">
+    <div class="v-div"></div>
 
-      <div class="section">
-        <div class="section-title">Sandwiches</div>
-        <div class="item featured">
-          <div class="item-name">Tuna Sandwich</div>
-          <div class="item-dots"></div>
-          <div class="item-price">170<span>den</span></div>
+    <!-- PORCION -->
+    <div class="cat">
+      <div class="cat-title">Porcion</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=480&q=80" alt="Porcion Viçi" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Porcion Viçi</div></div>
+            <div class="card-price">350<small>den</small></div>
+          </div>
         </div>
-        <div class="item featured">
-          <div class="item-name">Chicken Sandwich</div>
-          <div class="item-dots"></div>
-          <div class="item-price">170<span>den</span></div>
-        </div>
-        <div class="item featured">
-          <div class="item-name">Suxhuk Sandwich</div>
-          <div class="item-dots"></div>
-          <div class="item-price">170<span>den</span></div>
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1604908177453-7462950a6a3b?w=480&q=80" alt="Porcion Pule" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Porcion Pule</div></div>
+            <div class="card-price">350<small>den</small></div>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="section">
-        <div class="section-title">Tost</div>
-        <div class="item">
-          <div class="item-name">Tost me Sallam</div>
-          <div class="item-dots"></div>
-          <div class="item-price">80<span>den</span></div>
+    <div class="v-div"></div>
+
+    <!-- DURUM -->
+    <div class="cat">
+      <div class="cat-title">Durum</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1561651823-34feb02250e4?w=480&q=80" alt="Durum Viçi" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Durum Viçi</div></div>
+            <div class="card-price">220<small>den</small></div>
+          </div>
         </div>
-        <div class="item">
-          <div class="item-name">Tost me Suxhuk</div>
-          <div class="item-dots"></div>
-          <div class="item-price">80<span>den</span></div>
-        </div>
-        <div class="item">
-          <div class="item-name">Tost me Proshutë</div>
-          <div class="item-dots"></div>
-          <div class="item-price">80<span>den</span></div>
-        </div>
-        <div class="item addon">
-          <div class="item-name">+ Extra Pomfrit</div>
-          <div class="item-dots"></div>
-          <div class="item-price">+20<span>den</span></div>
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=480&q=80" alt="Durum Pule" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Durum Pule</div></div>
+            <div class="card-price">220<small>den</small></div>
+          </div>
         </div>
       </div>
-
     </div>
 
   </div>
 
   <footer>
-    <div class="progress-label">Страница 1</div>
-    <div class="progress-track"><div class="progress-bar" id="bar1"></div></div>
+    <div class="prog-label">Страница 1</div>
+    <div class="prog-track"><div class="prog-bar" id="bar1"></div></div>
     <div class="dots">
-      <div class="dot on" id="dot0"></div>
-      <div class="dot" id="dot1"></div>
+      <div class="dot on" id="d0"></div><div class="dot" id="d1"></div><div class="dot" id="d2"></div>
     </div>
   </footer>
 </section>
 
 
-<!-- ═══════════════════ PAGE 2 ═══════════════════ -->
+<!-- ════════════════════ PAGE 2 — Sandwiches & Toast ════════════════════ -->
 <section class="page" id="page2">
   <header>
-    <div class="ornament">
-      <div class="ornament-line"></div>
-      <div class="ornament-diamond"></div>
-      <div class="ornament-line"></div>
-    </div>
+    <div class="orn"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line"></div></div>
     <div class="brand">
       <div class="brand-name">SEDRA <em>DONER</em></div>
       <div class="brand-sub">Мeny &nbsp;·&nbsp; Menu</div>
     </div>
-    <div class="ornament">
-      <div class="ornament-line r"></div>
-      <div class="ornament-diamond"></div>
-      <div class="ornament-line r"></div>
-    </div>
-    <div class="page-badge">2 / 2</div>
+    <div class="orn"><div class="orn-line r"></div><div class="orn-dia"></div><div class="orn-line r"></div></div>
+    <div class="page-badge">2 / 3</div>
   </header>
 
   <div class="body">
 
-    <!-- COL 1: Extras -->
-    <div class="section">
-      <div class="section-title">Dodatoci</div>
-      <div class="item">
-        <div class="item-name">Pomfrit Extra</div>
-        <div class="item-dots"></div>
-        <div class="item-price">100<span>den</span></div>
-      </div>
-      <div class="item">
-        <div class="item-name">Extra Sos</div>
-        <div class="item-dots"></div>
-        <div class="item-price">30<span>den</span></div>
-      </div>
-      <div class="item">
-        <div class="item-name">Extra Mish</div>
-        <div class="item-dots"></div>
-        <div class="item-price">60<span>den</span></div>
-      </div>
-    </div>
-
-    <!-- COL 2: Drinks -->
-    <div class="section">
-      <div class="section-title">Пијалоци</div>
-      <div class="item">
-        <div class="item-name">Lëngje të Gazuara</div>
-        <div class="item-dots"></div>
-        <div class="item-price">70<span>den</span></div>
-      </div>
-      <div class="item">
-        <div class="item-name">Lëngje Pemesh</div>
-        <div class="item-dots"></div>
-        <div class="item-price">70<span>den</span></div>
-      </div>
-      <div class="item">
-        <div class="item-name">Limonadë</div>
-        <div class="item-dots"></div>
-        <div class="item-price">60<span>den</span></div>
-      </div>
-      <div class="item">
-        <div class="item-name">Ajran</div>
-        <div class="item-dots"></div>
-        <div class="item-price">50<span>den</span></div>
-      </div>
-      <div class="item">
-        <div class="item-name">Jogurt</div>
-        <div class="item-dots"></div>
-        <div class="item-price">50<span>den</span></div>
+    <!-- SANDWICHES -->
+    <div class="cat">
+      <div class="cat-title">Sandwiches</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1553909489-cd47e0907980?w=480&q=80" alt="Tuna Sandwich" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Tuna Sandwich</div></div>
+            <div class="card-price">170<small>den</small></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=480&q=80" alt="Chicken Sandwich" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Chicken Sandwich</div></div>
+            <div class="card-price">170<small>den</small></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1559847844-5315695dadae?w=480&q=80" alt="Suxhuk Sandwich" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Suxhuk Sandwich</div></div>
+            <div class="card-price">170<small>den</small></div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- COL 3: Water -->
-    <div class="section">
-      <div class="section-title">Вода</div>
-      <div class="item">
-        <div class="item-name">Ujë pa Gaz</div>
-        <div class="item-dots"></div>
-        <div class="item-price">50<span>den</span></div>
-      </div>
-      <div class="item">
-        <div class="item-name">Ujë me Gaz</div>
-        <div class="item-dots"></div>
-        <div class="item-price">50<span>den</span></div>
+    <div class="v-div"></div>
+
+    <!-- TOST -->
+    <div class="cat">
+      <div class="cat-title">Tost</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=480&q=80" alt="Tost me Sallam" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Tost me Sallam</div></div>
+            <div class="card-price">80<small>den</small></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=480&q=80" alt="Tost me Suxhuk" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Tost me Suxhuk</div></div>
+            <div class="card-price">80<small>den</small></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1484723091739-30990ff50ecd?w=480&q=80" alt="Tost me Proshute" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-addon">+ Extra Pomfrit +20 den</div>
+          <div class="card-body">
+            <div><div class="card-name">Tost me Proshutë</div></div>
+            <div class="card-price">80<small>den</small></div>
+          </div>
+        </div>
       </div>
     </div>
 
   </div>
 
   <footer>
-    <div class="progress-label">Страница 2</div>
-    <div class="progress-track"><div class="progress-bar" id="bar2"></div></div>
+    <div class="prog-label">Страница 2</div>
+    <div class="prog-track"><div class="prog-bar" id="bar2"></div></div>
     <div class="dots">
-      <div class="dot" id="dot2"></div>
-      <div class="dot on" id="dot3"></div>
+      <div class="dot" id="d3"></div><div class="dot on" id="d4"></div><div class="dot" id="d5"></div>
+    </div>
+  </footer>
+</section>
+
+
+<!-- ════════════════════ PAGE 3 — Drinks & Extras ════════════════════ -->
+<section class="page" id="page3">
+  <header>
+    <div class="orn"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line"></div></div>
+    <div class="brand">
+      <div class="brand-name">SEDRA <em>DONER</em></div>
+      <div class="brand-sub">Мeny &nbsp;·&nbsp; Menu</div>
+    </div>
+    <div class="orn"><div class="orn-line r"></div><div class="orn-dia"></div><div class="orn-line r"></div></div>
+    <div class="page-badge">3 / 3</div>
+  </header>
+
+  <div class="body">
+
+    <!-- DODATOCI -->
+    <div class="cat" style="max-width:360px;">
+      <div class="cat-title">Dodatoci</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=480&q=80" alt="Pomfrit" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Pomfrit Extra</div></div>
+            <div class="card-price">100<small>den</small></div>
+          </div>
+        </div>
+      </div>
+      <!-- Extra sos & mish as compact rows -->
+      <div style="display:flex;gap:12px;margin-top:4px;">
+        <div class="card" style="flex:1;">
+          <div class="card-body" style="padding:14px 14px;">
+            <div><div class="card-name" style="font-size:15px;">Extra Sos</div></div>
+            <div class="card-price" style="font-size:22px;">30<small>den</small></div>
+          </div>
+        </div>
+        <div class="card" style="flex:1;">
+          <div class="card-body" style="padding:14px 14px;">
+            <div><div class="card-name" style="font-size:15px;">Extra Mish</div></div>
+            <div class="card-price" style="font-size:22px;">60<small>den</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="v-div"></div>
+
+    <!-- ПИЈАЛОЦИ -->
+    <div class="cat">
+      <div class="cat-title">Пијалоци</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=480&q=80" alt="Drinks" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div>
+              <div class="card-name">Lëngje të Gazuara</div>
+              <span class="card-sub">Lëngje Pemesh</span>
+            </div>
+            <div class="card-price">70<small>den</small></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=480&q=80" alt="Limonade" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div><div class="card-name">Limonadë</div></div>
+            <div class="card-price">60<small>den</small></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?w=480&q=80" alt="Ajran" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div>
+              <div class="card-name">Ajran</div>
+              <span class="card-sub">Jogurt</span>
+            </div>
+            <div class="card-price">50<small>den</small></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1559839914-17aae19cec71?w=480&q=80" alt="Uje" onerror="this.style.minHeight='160px'">
+          </div>
+          <div class="card-body">
+            <div>
+              <div class="card-name">Ujë pa / me Gaz</div>
+            </div>
+            <div class="card-price">50<small>den</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="prog-label">Страница 3</div>
+    <div class="prog-track"><div class="prog-bar" id="bar3"></div></div>
+    <div class="dots">
+      <div class="dot" id="d6"></div><div class="dot" id="d7"></div><div class="dot on" id="d8"></div>
     </div>
   </footer>
 </section>
 
 
 <script>
-  const CYCLE = 20000;
-  const HALF  = CYCLE / 2;
+  const CYCLE = 30000;
+  const THIRD = CYCLE / 3;
 
-  const pages = [
-    document.getElementById('page1'),
-    document.getElementById('page2'),
+  const pages = ['page1','page2','page3'].map(id => document.getElementById(id));
+  const bars  = ['bar1','bar2','bar3'].map(id => document.getElementById(id));
+  // dot IDs per page
+  const dotSets = [
+    ['d0','d1','d2'],
+    ['d3','d4','d5'],
+    ['d6','d7','d8'],
   ];
-  const bars = [
-    document.getElementById('bar1'),
-    document.getElementById('bar2'),
-  ];
-  const dotPairs = [
-    [document.getElementById('dot0'), document.getElementById('dot1')],
-    [document.getElementById('dot2'), document.getElementById('dot3')],
-  ];
+  const allDots = dotSets.flat().map(id => document.getElementById(id));
 
   let current = 0;
-  let startTime = performance.now();
+  const startTime = performance.now();
 
   function showPage(idx) {
-    pages.forEach((p, i) => p.classList.toggle('active', i === idx));
+    pages.forEach((p,i) => p.classList.toggle('active', i === idx));
     bars.forEach(b => b.style.width = '0%');
-    dotPairs.forEach((pair, i) => {
-      pair[0].classList.toggle('on', i === idx);
-      pair[1].classList.toggle('on', i !== idx);
-    });
+    // dots: light the idx-th dot in every footer
+    allDots.forEach(d => d.classList.remove('on'));
+    dotSets.forEach(set => set[idx] && document.getElementById(set[idx])?.classList.add('on'));
   }
 
   function tick(now) {
-    const elapsed   = (now - startTime) % CYCLE;
-    const pageIdx   = elapsed < HALF ? 0 : 1;
-    const pageElapsed = elapsed < HALF ? elapsed : elapsed - HALF;
-    const pct       = (pageElapsed / HALF) * 100;
+    const elapsed  = (now - startTime) % CYCLE;
+    const pageIdx  = Math.floor(elapsed / THIRD);
+    const pageEl   = elapsed - pageIdx * THIRD;
+    const pct      = (pageEl / THIRD) * 100;
 
-    if (pageIdx !== current) {
-      current = pageIdx;
-      showPage(current);
-    }
-
-    bars[current].style.width = pct + '%';
+    if (pageIdx !== current) { current = pageIdx; showPage(current); }
+    if (bars[current]) bars[current].style.width = pct + '%';
     requestAnimationFrame(tick);
   }
 
