@@ -153,6 +153,32 @@
   /* thin vertical divider between categories */
   .v-div { width:1px; background:var(--rule); align-self:stretch; flex-shrink:0; margin:10px 4px; }
 
+  /* ═══ TEXT-ONLY LIST ROWS (no photos) ═══ */
+  .list { display:flex; flex-direction:column; }
+  .row {
+    display:flex; align-items:baseline;
+    padding:14px 0;
+    border-bottom:1px solid rgba(196,154,42,.10);
+  }
+  .list .row:last-child { border-bottom:none; }
+  .row-name { flex:1; font-size:21px; font-weight:500; color:var(--ink); letter-spacing:.01em; }
+  .row-sub { display:block; font-size:13px; color:var(--ink-soft); font-weight:400; margin-top:3px; }
+  .row-dots { flex:1; border-bottom:1px dotted rgba(196,154,42,.3); margin:0 14px; position:relative; top:-6px; min-width:24px; }
+  .row-price {
+    font-family:'Cormorant Garamond',serif;
+    font-size:27px; font-weight:700; color:var(--ink);
+    white-space:nowrap; letter-spacing:.03em;
+  }
+  .row-price small { font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--ink-soft); margin-left:3px; }
+  .row.featured .row-price { color:var(--gold); }
+  .row.featured .row-price small { color:var(--gold); opacity:.75; }
+
+  /* add-on modifier row */
+  .row.addon { padding:6px 0 14px 18px; }
+  .row.addon .row-name { font-size:15px; font-weight:400; color:var(--ink-soft); font-style:italic; }
+  .row.addon .row-price { font-size:18px; color:var(--ink-soft); }
+  .row.addon .row-price small { color:var(--ink-soft); }
+
   /* ═══ FOOTER ═══ */
   footer {
     display:flex; align-items:center; padding:0 80px;
@@ -190,7 +216,7 @@
       <div class="cards">
         <div class="card">
           <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=480&q=80" alt="Doner Viçi" onerror="this.style.minHeight='160px'">
+            <img class="card-img" src="images/doner-vici.jpg" alt="Doner Viçi" onerror="this.style.minHeight='160px'">
           </div>
           <div class="card-body">
             <div><div class="card-name">Doner Viçi</div></div>
@@ -199,7 +225,7 @@
         </div>
         <div class="card">
           <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=480&q=80" alt="Doner Pule" onerror="this.style.minHeight='160px'">
+            <img class="card-img" src="images/doner-pule.jpg" alt="Doner Pule" onerror="this.style.minHeight='160px'">
           </div>
           <div class="card-body">
             <div><div class="card-name">Doner Pule</div></div>
@@ -217,7 +243,7 @@
       <div class="cards">
         <div class="card">
           <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=480&q=80" alt="Porcion Viçi" onerror="this.style.minHeight='160px'">
+            <img class="card-img" src="images/porcion-vici.jpg" alt="Porcion Viçi" onerror="this.style.minHeight='160px'">
           </div>
           <div class="card-body">
             <div><div class="card-name">Porcion Viçi</div></div>
@@ -226,7 +252,7 @@
         </div>
         <div class="card">
           <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1604908177453-7462950a6a3b?w=480&q=80" alt="Porcion Pule" onerror="this.style.minHeight='160px'">
+            <img class="card-img" src="images/porcion-pule.jpg" alt="Porcion Pule" onerror="this.style.minHeight='160px'">
           </div>
           <div class="card-body">
             <div><div class="card-name">Porcion Pule</div></div>
@@ -244,7 +270,7 @@
       <div class="cards">
         <div class="card">
           <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1561651823-34feb02250e4?w=480&q=80" alt="Durum Viçi" onerror="this.style.minHeight='160px'">
+            <img class="card-img" src="images/durum-vici.jpg" alt="Durum Viçi" onerror="this.style.minHeight='160px'">
           </div>
           <div class="card-body">
             <div><div class="card-name">Durum Viçi</div></div>
@@ -253,7 +279,7 @@
         </div>
         <div class="card">
           <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=480&q=80" alt="Durum Pule" onerror="this.style.minHeight='160px'">
+            <img class="card-img" src="images/durum-pule.jpg" alt="Durum Pule" onerror="this.style.minHeight='160px'">
           </div>
           <div class="card-body">
             <div><div class="card-name">Durum Pule</div></div>
@@ -295,7 +321,7 @@
       <div class="cards">
         <div class="card">
           <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1553909489-cd47e0907980?w=480&q=80" alt="Tuna Sandwich" onerror="this.style.minHeight='160px'">
+            <img class="card-img" src="images/tuna-sandwich.jpg" alt="Tuna Sandwich" onerror="this.style.minHeight='160px'">
           </div>
           <div class="card-body">
             <div><div class="card-name">Tuna Sandwich</div></div>
@@ -304,7 +330,7 @@
         </div>
         <div class="card">
           <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=480&q=80" alt="Chicken Sandwich" onerror="this.style.minHeight='160px'">
+            <img class="card-img" src="images/chicken-sandwich.jpg" alt="Chicken Sandwich" onerror="this.style.minHeight='160px'">
           </div>
           <div class="card-body">
             <div><div class="card-name">Chicken Sandwich</div></div>
@@ -313,7 +339,7 @@
         </div>
         <div class="card">
           <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1559847844-5315695dadae?w=480&q=80" alt="Suxhuk Sandwich" onerror="this.style.minHeight='160px'">
+            <img class="card-img" src="images/suxhuk-sandwich.jpg" alt="Suxhuk Sandwich" onerror="this.style.minHeight='160px'">
           </div>
           <div class="card-body">
             <div><div class="card-name">Suxhuk Sandwich</div></div>
@@ -326,36 +352,28 @@
     <div class="v-div"></div>
 
     <!-- TOST -->
-    <div class="cat">
+    <div class="cat" style="max-width:480px;">
       <div class="cat-title">Tost</div>
-      <div class="cards">
-        <div class="card">
-          <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=480&q=80" alt="Tost me Sallam" onerror="this.style.minHeight='160px'">
-          </div>
-          <div class="card-body">
-            <div><div class="card-name">Tost me Sallam</div></div>
-            <div class="card-price">80<small>den</small></div>
-          </div>
+      <div class="list">
+        <div class="row featured">
+          <div class="row-name">Tost me Sallam</div>
+          <div class="row-dots"></div>
+          <div class="row-price">80<small>den</small></div>
         </div>
-        <div class="card">
-          <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=480&q=80" alt="Tost me Suxhuk" onerror="this.style.minHeight='160px'">
-          </div>
-          <div class="card-body">
-            <div><div class="card-name">Tost me Suxhuk</div></div>
-            <div class="card-price">80<small>den</small></div>
-          </div>
+        <div class="row featured">
+          <div class="row-name">Tost me Suxhuk</div>
+          <div class="row-dots"></div>
+          <div class="row-price">80<small>den</small></div>
         </div>
-        <div class="card">
-          <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1484723091739-30990ff50ecd?w=480&q=80" alt="Tost me Proshute" onerror="this.style.minHeight='160px'">
-          </div>
-          <div class="card-addon">+ Extra Pomfrit +20 den</div>
-          <div class="card-body">
-            <div><div class="card-name">Tost me Proshutë</div></div>
-            <div class="card-price">80<small>den</small></div>
-          </div>
+        <div class="row featured">
+          <div class="row-name">Tost me Proshutë</div>
+          <div class="row-dots"></div>
+          <div class="row-price">80<small>den</small></div>
+        </div>
+        <div class="row addon">
+          <div class="row-name">+ Extra Pomfrit</div>
+          <div class="row-dots"></div>
+          <div class="row-price">+20<small>den</small></div>
         </div>
       </div>
     </div>
@@ -387,32 +405,23 @@
   <div class="body">
 
     <!-- DODATOCI -->
-    <div class="cat" style="max-width:360px;">
+    <div class="cat" style="max-width:380px;">
       <div class="cat-title">Dodatoci</div>
-      <div class="cards">
-        <div class="card">
-          <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=480&q=80" alt="Pomfrit" onerror="this.style.minHeight='160px'">
-          </div>
-          <div class="card-body">
-            <div><div class="card-name">Pomfrit Extra</div></div>
-            <div class="card-price">100<small>den</small></div>
-          </div>
+      <div class="list">
+        <div class="row featured">
+          <div class="row-name">Pomfrit Extra</div>
+          <div class="row-dots"></div>
+          <div class="row-price">100<small>den</small></div>
         </div>
-      </div>
-      <!-- Extra sos & mish as compact rows -->
-      <div style="display:flex;gap:12px;margin-top:4px;">
-        <div class="card" style="flex:1;">
-          <div class="card-body" style="padding:14px 14px;">
-            <div><div class="card-name" style="font-size:15px;">Extra Sos</div></div>
-            <div class="card-price" style="font-size:22px;">30<small>den</small></div>
-          </div>
+        <div class="row">
+          <div class="row-name">Extra Sos</div>
+          <div class="row-dots"></div>
+          <div class="row-price">30<small>den</small></div>
         </div>
-        <div class="card" style="flex:1;">
-          <div class="card-body" style="padding:14px 14px;">
-            <div><div class="card-name" style="font-size:15px;">Extra Mish</div></div>
-            <div class="card-price" style="font-size:22px;">60<small>den</small></div>
-          </div>
+        <div class="row">
+          <div class="row-name">Extra Mish</div>
+          <div class="row-dots"></div>
+          <div class="row-price">60<small>den</small></div>
         </div>
       </div>
     </div>
@@ -420,52 +429,28 @@
     <div class="v-div"></div>
 
     <!-- ПИЈАЛОЦИ -->
-    <div class="cat">
+    <div class="cat" style="max-width:480px;">
       <div class="cat-title">Пијалоци</div>
-      <div class="cards">
-        <div class="card">
-          <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=480&q=80" alt="Drinks" onerror="this.style.minHeight='160px'">
-          </div>
-          <div class="card-body">
-            <div>
-              <div class="card-name">Lëngje të Gazuara</div>
-              <span class="card-sub">Lëngje Pemesh</span>
-            </div>
-            <div class="card-price">70<small>den</small></div>
-          </div>
+      <div class="list">
+        <div class="row">
+          <div class="row-name">Lëngje të Gazuara<span class="row-sub">Lëngje Pemesh</span></div>
+          <div class="row-dots"></div>
+          <div class="row-price">70<small>den</small></div>
         </div>
-        <div class="card">
-          <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=480&q=80" alt="Limonade" onerror="this.style.minHeight='160px'">
-          </div>
-          <div class="card-body">
-            <div><div class="card-name">Limonadë</div></div>
-            <div class="card-price">60<small>den</small></div>
-          </div>
+        <div class="row">
+          <div class="row-name">Limonadë</div>
+          <div class="row-dots"></div>
+          <div class="row-price">60<small>den</small></div>
         </div>
-        <div class="card">
-          <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?w=480&q=80" alt="Ajran" onerror="this.style.minHeight='160px'">
-          </div>
-          <div class="card-body">
-            <div>
-              <div class="card-name">Ajran</div>
-              <span class="card-sub">Jogurt</span>
-            </div>
-            <div class="card-price">50<small>den</small></div>
-          </div>
+        <div class="row">
+          <div class="row-name">Ajran<span class="row-sub">Jogurt</span></div>
+          <div class="row-dots"></div>
+          <div class="row-price">50<small>den</small></div>
         </div>
-        <div class="card">
-          <div class="card-img-wrap">
-            <img class="card-img" src="https://images.unsplash.com/photo-1559839914-17aae19cec71?w=480&q=80" alt="Uje" onerror="this.style.minHeight='160px'">
-          </div>
-          <div class="card-body">
-            <div>
-              <div class="card-name">Ujë pa / me Gaz</div>
-            </div>
-            <div class="card-price">50<small>den</small></div>
-          </div>
+        <div class="row">
+          <div class="row-name">Ujë pa / me Gaz</div>
+          <div class="row-dots"></div>
+          <div class="row-price">50<small>den</small></div>
         </div>
       </div>
     </div>
