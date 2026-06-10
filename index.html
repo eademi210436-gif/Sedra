@@ -197,6 +197,26 @@
     border:1px solid var(--rule);
   }
 
+  /* today's special badge */
+  .card-special {
+    position:absolute; top:10px; left:10px;
+    background:linear-gradient(135deg,#8B1A0A,#C0392B);
+    border-radius:20px; padding:4px 12px;
+    font-size:11px; font-weight:700; color:#FCEFD9;
+    letter-spacing:.1em; text-transform:uppercase;
+    box-shadow:0 3px 10px rgba(139,26,10,.35);
+    display:flex; align-items:center; gap:5px;
+  }
+  .card-special::before {
+    content:''; width:5px; height:5px; border-radius:50%;
+    background:var(--gold-lt);
+    box-shadow:0 0 6px var(--gold-lt);
+  }
+  .card.is-special {
+    box-shadow:0 4px 22px rgba(139,26,10,.18), 0 1px 4px rgba(30,20,5,.06);
+    border:1px solid rgba(196,154,42,.35);
+  }
+
   /* thin vertical divider between categories */
   .v-div { width:1px; background:var(--rule); align-self:stretch; flex-shrink:0; margin:10px 4px; }
 
@@ -287,10 +307,11 @@
     <div class="cat">
       <div class="cat-title">Doner</div>
       <div class="cards">
-        <div class="card">
+        <div class="card is-special">
           <div class="card-img-wrap">
             <img class="card-img" src="images/doner-vici.png" alt="Doner Viçi" onerror="this.style.minHeight='160px'">
           </div>
+          <div class="card-special">★ Today's Special</div>
           <div class="card-body">
             <div><div class="card-name">Doner Viçi</div></div>
             <div class="card-price">200<small>den</small></div>
@@ -314,10 +335,11 @@
     <div class="cat">
       <div class="cat-title">Porcion</div>
       <div class="cards">
-        <div class="card">
+        <div class="card is-special">
           <div class="card-img-wrap">
             <img class="card-img" src="images/porcion-vici.png" alt="Porcion Viçi" onerror="this.style.minHeight='160px'">
           </div>
+          <div class="card-special">★ Today's Special</div>
           <div class="card-body">
             <div><div class="card-name">Porcion Viçi</div></div>
             <div class="card-price">350<small>den</small></div>
